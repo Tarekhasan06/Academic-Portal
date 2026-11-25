@@ -1,0 +1,658 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-25T18:47:56.182890+00:00",
+  "title": "Design System: Winter 2026 Academic Portal",
+  "extensions": {
+    "colorMeta": {
+      "carrier-navy": {
+        "role": "primary",
+        "displayName": "Carrier Navy",
+        "canonical": "oklch(23.2% 0.068 264.8)",
+        "tonalRamp": [
+          "#020824",
+          "#162546",
+          "#364463",
+          "#596681",
+          "#7f899f",
+          "#a6aebf",
+          "#cbd1dc",
+          "#ebeef5"
+        ]
+      },
+      "navy-cabin": {
+        "role": "primary",
+        "displayName": "Navy Cabin",
+        "canonical": "oklch(30.4% 0.081 265.6)",
+        "tonalRamp": [
+          "#020824",
+          "#14244b",
+          "#33446b",
+          "#566688",
+          "#7c89a6",
+          "#a4aec4",
+          "#cad1e0",
+          "#ebeef7"
+        ]
+      },
+      "navy-bulkhead": {
+        "role": "primary",
+        "displayName": "Navy Bulkhead",
+        "canonical": "oklch(37.8% 0.087 266.3)",
+        "tonalRamp": [
+          "#030822",
+          "#162449",
+          "#2f4273",
+          "#53658f",
+          "#7a89ab",
+          "#a2aec8",
+          "#c9d1e2",
+          "#eaeef8"
+        ]
+      },
+      "jet-red": {
+        "role": "secondary",
+        "displayName": "Jet Red",
+        "canonical": "oklch(56.9% 0.210 25.6)",
+        "tonalRamp": [
+          "#210000",
+          "#4f0005",
+          "#830c14",
+          "#bb1d25",
+          "#e2504c",
+          "#f58c83",
+          "#ffbdb6",
+          "#ffe5e1"
+        ]
+      },
+      "jet-ink": {
+        "role": "secondary",
+        "displayName": "Jet Ink",
+        "canonical": "oklch(50.6% 0.188 25.5)",
+        "tonalRamp": [
+          "#240000",
+          "#520003",
+          "#840813",
+          "#b92227",
+          "#d2615b",
+          "#e8948d",
+          "#f8c2bc",
+          "#ffe7e3"
+        ]
+      },
+      "jet-wash": {
+        "role": "secondary",
+        "displayName": "Jet Wash",
+        "canonical": "oklch(94.8% 0.020 17.5)",
+        "tonalRamp": [
+          "#0c0b0b",
+          "#282626",
+          "#474444",
+          "#696565",
+          "#8f8787",
+          "#b6abab",
+          "#dccdcd",
+          "#fbeaea"
+        ]
+      },
+      "carbon-purple": {
+        "role": "tertiary",
+        "displayName": "Carbon Purple",
+        "canonical": "oklch(38.5% 0.136 294.9)",
+        "tonalRamp": [
+          "#10002a",
+          "#2c1455",
+          "#4c3084",
+          "#6b589e",
+          "#8d7fb8",
+          "#b0a7d2",
+          "#d2cce9",
+          "#efecfc"
+        ]
+      },
+      "carbon-lilac": {
+        "role": "tertiary",
+        "displayName": "Carbon Lilac",
+        "canonical": "oklch(88.3% 0.041 299.7)",
+        "tonalRamp": [
+          "#0b0b0d",
+          "#272629",
+          "#464449",
+          "#67646e",
+          "#8b8696",
+          "#b1aac0",
+          "#d4cce8",
+          "#f0ecfa"
+        ]
+      },
+      "carbon-lilac-pale": {
+        "role": "tertiary",
+        "displayName": "Pale Lilac",
+        "canonical": "oklch(93.2% 0.025 301.1)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#272628",
+          "#454447",
+          "#67656a",
+          "#8a8790",
+          "#b0acb8",
+          "#d3cede",
+          "#f0ecf9"
+        ]
+      },
+      "ticket-stock": {
+        "role": "neutral",
+        "displayName": "Ticket Stock",
+        "canonical": "oklch(96.1% 0.003 106.4)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666665",
+          "#898988",
+          "#aeaead",
+          "#d1d1cf",
+          "#eeeeed"
+        ]
+      },
+      "coupon-white": {
+        "role": "neutral",
+        "displayName": "Coupon White",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(23.2% 0.068 264.8)",
+        "tonalRamp": [
+          "#020824",
+          "#162546",
+          "#364463",
+          "#596681",
+          "#7f899f",
+          "#a6aebf",
+          "#cbd1dc",
+          "#ebeef5"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "oklch(45.5% 0.059 270.5)",
+        "tonalRamp": [
+          "#070a18",
+          "#1f253b",
+          "#3a4462",
+          "#5a6585",
+          "#7f88a3",
+          "#a7adc1",
+          "#ccd1de",
+          "#eceef5"
+        ]
+      },
+      "ink-faint": {
+        "role": "neutral",
+        "displayName": "Ink Faint",
+        "canonical": "oklch(55.5% 0.046 271.4)",
+        "tonalRamp": [
+          "#090b12",
+          "#222633",
+          "#3e4458",
+          "#5d657f",
+          "#8088a2",
+          "#a7adc0",
+          "#cdd1dd",
+          "#eceef4"
+        ]
+      },
+      "perforation": {
+        "role": "neutral",
+        "displayName": "Perforation",
+        "canonical": "oklch(77.4% 0.028 269.6)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#252629",
+          "#43454b",
+          "#626670",
+          "#848997",
+          "#a7aec0",
+          "#ccd1dd",
+          "#eceef4"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(88.3% 0.013 271.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262627",
+          "#444546",
+          "#656669",
+          "#87898e",
+          "#abaeb4",
+          "#ced1d9",
+          "#edeef3"
+        ]
+      },
+      "clear-green": {
+        "role": "neutral",
+        "displayName": "Clear Green",
+        "canonical": "oklch(51.1% 0.135 147.3)",
+        "tonalRamp": [
+          "#001100",
+          "#00310a",
+          "#0a541e",
+          "#1e7a34",
+          "#5b9a63",
+          "#8fbb93",
+          "#bedac0",
+          "#e5f3e6"
+        ]
+      },
+      "course-ipe-4705": {
+        "role": "course",
+        "displayName": "IPE 4705 Course Ink",
+        "canonical": "oklch(47.8% 0.147 254.3)",
+        "tonalRamp": [
+          "#000927",
+          "#002554",
+          "#004486",
+          "#2266b3",
+          "#5a8cc9",
+          "#8db1de",
+          "#bcd3f1",
+          "#e4f0ff"
+        ]
+      },
+      "course-ipe-4706": {
+        "role": "course",
+        "displayName": "IPE 4706 Course Ink",
+        "canonical": "oklch(48.6% 0.082 185.8)",
+        "tonalRamp": [
+          "#00100d",
+          "#002f2a",
+          "#00514a",
+          "#22746d",
+          "#5d958e",
+          "#90b7b2",
+          "#bed7d3",
+          "#e5f2f0"
+        ]
+      },
+      "course-ipe-4709": {
+        "role": "course",
+        "displayName": "IPE 4709 Course Ink",
+        "canonical": "oklch(48.9% 0.146 40.3)",
+        "tonalRamp": [
+          "#200000",
+          "#4a0e00",
+          "#782500",
+          "#a6431b",
+          "#c17155",
+          "#d99e89",
+          "#eec7b9",
+          "#fee9e2"
+        ]
+      },
+      "course-ipe-4710": {
+        "role": "course",
+        "displayName": "IPE 4710 Course Ink",
+        "canonical": "oklch(44.3% 0.184 274.5)",
+        "tonalRamp": [
+          "#060033",
+          "#191665",
+          "#30329c",
+          "#4d58c2",
+          "#7382d5",
+          "#9caae8",
+          "#c5cff7",
+          "#e8eeff"
+        ]
+      },
+      "course-ipe-4715": {
+        "role": "course",
+        "displayName": "IPE 4715 Course Ink",
+        "canonical": "oklch(51.1% 0.135 147.3)",
+        "tonalRamp": [
+          "#001100",
+          "#00310a",
+          "#0a541e",
+          "#1e7a34",
+          "#5b9a63",
+          "#8fbb93",
+          "#bedac0",
+          "#e5f3e6"
+        ]
+      },
+      "course-ipe-4716": {
+        "role": "course",
+        "displayName": "IPE 4716 Course Ink",
+        "canonical": "oklch(50.1% 0.091 224.1)",
+        "tonalRamp": [
+          "#000e17",
+          "#002c3b",
+          "#004d63",
+          "#15718c",
+          "#5893a9",
+          "#8db5c5",
+          "#bcd6e0",
+          "#e4f1f6"
+        ]
+      },
+      "course-ipe-4725": {
+        "role": "course",
+        "displayName": "IPE 4725 Course Ink",
+        "canonical": "oklch(50.8% 0.108 73.3)",
+        "tonalRamp": [
+          "#160700",
+          "#3a2000",
+          "#613c00",
+          "#8b5b03",
+          "#a8814e",
+          "#c5a985",
+          "#e0ceb7",
+          "#f6ede1"
+        ]
+      },
+      "course-ipe-4785": {
+        "role": "course",
+        "displayName": "IPE 4785 Course Ink",
+        "canonical": "oklch(47.3% 0.187 309.7)",
+        "tonalRamp": [
+          "#160026",
+          "#390653",
+          "#5f1e84",
+          "#8440af",
+          "#a270c6",
+          "#c19ddc",
+          "#ddc7f0",
+          "#f5e9ff"
+        ]
+      },
+      "course-ipe-4700": {
+        "role": "course",
+        "displayName": "IPE 4700 Course Ink",
+        "canonical": "oklch(47.6% 0.167 6.5)",
+        "tonalRamp": [
+          "#230006",
+          "#4e001d",
+          "#7e1038",
+          "#ab3357",
+          "#c6677d",
+          "#de97a5",
+          "#f2c3cb",
+          "#ffe7eb"
+        ]
+      },
+      "course-me-4703": {
+        "role": "course",
+        "displayName": "ME 4703 Course Ink",
+        "canonical": "oklch(43.9% 0.061 60.5)",
+        "tonalRamp": [
+          "#150700",
+          "#36210e",
+          "#5b3e24",
+          "#7d5f46",
+          "#9d8470",
+          "#bdaa9b",
+          "#dbcec5",
+          "#f4ede8"
+        ]
+      },
+      "course-unknown": {
+        "role": "course",
+        "displayName": "Unknown Course Ink",
+        "canonical": "oklch(45.5% 0.059 270.5)",
+        "tonalRamp": [
+          "#070a18",
+          "#1f253b",
+          "#3a4462",
+          "#5a6585",
+          "#7f88a3",
+          "#a7adc1",
+          "#ccd1de",
+          "#eceef5"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page titles; 32px phone, 40px desktop, uppercase."
+      },
+      "headline": {
+        "displayName": "Coupon Headline",
+        "purpose": "Course name on the next-leg coupon; 30px phone, 44px desktop, uppercase."
+      },
+      "title": {
+        "displayName": "Section Head",
+        "purpose": "Section heads after the jet-red /// mark, uppercase."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose and metadata (13-15px)."
+      },
+      "body-strong": {
+        "displayName": "Record Title",
+        "purpose": "Record titles on coupons and leg rows."
+      },
+      "label": {
+        "displayName": "Tab Caps",
+        "purpose": "Field labels, tabs, nav, buttons, status words; 11-13px uppercase."
+      },
+      "numeral-display": {
+        "displayName": "D-Count",
+        "purpose": "The D-count on the next coupon stub."
+      },
+      "numeral": {
+        "displayName": "Carbon Numeral",
+        "purpose": "Every filled-in figure: dates, times, marks, counts."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ticket-ledge",
+        "value": "0 1px 0 rgb(13 27 61 / 0.14)",
+        "purpose": "Resting state of every ticket."
+      },
+      {
+        "name": "leg-lift",
+        "value": "0 10px 20px -16px rgba(13,27,61,0.6)",
+        "purpose": "Hover on a leg row."
+      },
+      {
+        "name": "primary-press-lip",
+        "value": "0 1px 0 #8f161b, 0 6px 14px -8px rgba(215,38,45,0.7)",
+        "purpose": "Primary button only."
+      },
+      {
+        "name": "sheet",
+        "value": "0 -12px 30px -12px rgba(13,27,61,0.5)",
+        "purpose": "Phone More sheet."
+      },
+      {
+        "name": "dialog",
+        "value": "0 24px 60px -20px rgba(13,27,61,0.7)",
+        "purpose": "Global search overlay."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-ticket",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Easing for all three one-shot moves."
+      },
+      {
+        "name": "stamp-in",
+        "value": "420ms",
+        "purpose": "USED stamp thunks in once (scale 1.35 to 0.95 to 1, rotate -14 to -7deg), staggered via delay."
+      },
+      {
+        "name": "print-in",
+        "value": "520ms",
+        "purpose": "Next coupon prints top-down once on arrival (translateY -8px with a falling shadow)."
+      },
+      {
+        "name": "slide-up",
+        "value": "520ms",
+        "purpose": "Sheets and the search dialog rise 10px from 0.4 opacity."
+      },
+      {
+        "name": "state",
+        "value": "150ms",
+        "purpose": "Button and field colour transitions."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Jet-red caps action; at most one per coupon.",
+      "html": "<button class=\"ds-btn-primary\">Open in Notion</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border:0;border-radius:4px;background:#d7262d;color:#fff;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;text-transform:uppercase;font-size:13px;letter-spacing:.12em;box-shadow:0 1px 0 #8f161b,0 6px 14px -8px rgba(215,38,45,.7);cursor:pointer;transition:background-color .15s,transform .15s}.ds-btn-primary:hover{background:#b81e25}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:2px solid #d7262d;outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Navy-ruled caps button that inverts on hover.",
+      "html": "<button class=\"ds-btn-secondary\">Open</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;height:40px;padding:0 16px;border:1.5px solid #0d1b3d;border-radius:4px;background:#fff;color:#0d1b3d;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;text-transform:uppercase;font-size:13px;letter-spacing:.12em;cursor:pointer;transition:background-color .15s,color .15s}.ds-btn-secondary:hover{background:#0d1b3d;color:#fff}.ds-btn-secondary:active{transform:translateY(1px)}.ds-btn-secondary:focus-visible{outline:2px solid #d7262d;outline-offset:2px}"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "White field with a 1.5px navy rule and jet-red caret.",
+      "html": "<input class=\"ds-field\" placeholder=\"Search quizzes, notes, topics…\">",
+      "css": ".ds-field{height:40px;width:280px;padding:0 12px;border:1.5px solid rgba(13,27,61,.25);border-radius:4px;background:#fff;color:#0d1b3d;font-family:Barlow,system-ui,sans-serif;font-size:15px;caret-color:#d7262d;transition:border-color .15s}.ds-field::placeholder{color:#69728f}.ds-field:hover{border-color:rgba(13,27,61,.5)}.ds-field:focus{border-color:#0d1b3d;outline:none}.ds-field:focus-visible{outline:2px solid #d7262d;outline-offset:2px}"
+    },
+    {
+      "name": "Course Tab",
+      "kind": "chip",
+      "refersTo": "course-tab",
+      "description": "Course code in white caps on its course ink, like a flight number.",
+      "html": "<a class=\"ds-course-tab\" href=\"#\" style=\"background:#1e7a34\">IPE 4715</a> <a class=\"ds-course-tab\" href=\"#\" style=\"background:#7b2fa8\">IPE 4785</a>",
+      "css": ".ds-course-tab{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:3px;color:#fff;text-decoration:none;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.1em;transition:filter .15s}.ds-course-tab:hover{filter:brightness(1.25)}.ds-course-tab:focus-visible{outline:2px solid #d7262d;outline-offset:2px}"
+    },
+    {
+      "name": "Rail Navigation",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Navy rail with caps items; active item on navy-cabin with a jet-red icon plate.",
+      "html": "<nav class=\"ds-rail\"><a class=\"ds-rail-item is-active\" href=\"#\"><span class=\"ds-plate\"><svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z\"/></svg></span>Today</a><a class=\"ds-rail-item\" href=\"#\"><span class=\"ds-plate\"><svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z\"/></svg></span>Courses</a></nav>",
+      "css": ".ds-rail{width:256px;padding:12px;background:#0d1b3d;display:flex;flex-direction:column;gap:2px}.ds-rail-item{display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:4px;color:rgba(255,255,255,.7);text-decoration:none;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;text-transform:uppercase;font-size:15px;letter-spacing:.12em;transition:background-color .15s,color .15s}.ds-rail-item:hover{background:rgba(27,44,87,.6);color:#fff}.ds-rail-item.is-active{background:#1b2c57;color:#fff}.ds-plate{display:grid;place-items:center;width:28px;height:28px;border-radius:4px}.is-active .ds-plate{background:#d7262d}.ds-rail-item:focus-visible{outline:2px solid #d7262d;outline-offset:2px}"
+    },
+    {
+      "name": "Leg Row",
+      "kind": "card",
+      "refersTo": "ticket",
+      "description": "Compact coupon with a perforated D-count stub; the unit of every list.",
+      "html": "<div class=\"ds-leg\"><div class=\"ds-leg-main\"><span class=\"ds-tab\">IPE 4725</span><span class=\"ds-cap\">Supply Chain</span><div class=\"ds-title\">Quiz 1</div><div class=\"ds-meta\"><b>TUE 01 DEC · 13:30</b> · Quiz · 15 marks</div></div><div class=\"ds-stub\"><b class=\"ds-d\">D-05</b><span class=\"ds-cap\">Open</span></div></div>",
+      "css": ".ds-leg{display:flex;min-height:68px;width:420px;background:#fff;border:1.5px solid rgba(13,27,61,.78);border-radius:6px;box-shadow:0 1px 0 rgba(13,27,61,.14);overflow:hidden;transition:box-shadow .15s;font-family:Barlow,system-ui,sans-serif}.ds-leg:hover{box-shadow:0 10px 20px -16px rgba(13,27,61,.6)}.ds-leg-main{flex:1;padding:10px 16px}.ds-tab{display:inline-block;height:20px;line-height:20px;padding:0 6px;margin-right:8px;border-radius:3px;background:#8a5a00;color:#fff;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.1em}.ds-cap{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.14em;color:#69728f}.ds-title{margin-top:4px;font-size:15.5px;font-weight:500;color:#0d1b3d}.ds-meta{font-size:13px;color:#4a5578}.ds-meta b{font:700 12.5px 'JetBrains Mono',monospace;letter-spacing:-.02em}.ds-stub{width:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-left:2px dashed #aeb5c8}.ds-d{font:700 18px 'JetBrains Mono',monospace;color:#4b2e83;letter-spacing:-.02em;font-variant-numeric:tabular-nums slashed-zero}"
+    },
+    {
+      "name": "Fare Box and Tear Line",
+      "kind": "custom",
+      "refersTo": "ticket",
+      "description": "Ruled Date / Time / Marks fields above a notched tear line and D-count stub.",
+      "html": "<div class=\"ds-ticket\"><div class=\"ds-fare\"><div><span>Date</span><b>FRI 27 NOV</b></div><div><span>Time</span><b>08:00</b></div><div><span>Marks</span><b>30</b></div></div><div class=\"ds-tear\"></div><div class=\"ds-stubrow\"><span>Boarding</span><b class=\"ds-urgent\">D-01</b></div></div>",
+      "css": ".ds-ticket{width:420px;padding-top:16px;background:#fff;border:1.5px solid rgba(13,27,61,.78);border-radius:6px;box-shadow:0 1px 0 rgba(13,27,61,.14);overflow:hidden}.ds-fare{margin:0 16px;display:grid;grid-template-columns:1.35fr 1fr .8fr;border-top:1.5px solid #0d1b3d;border-bottom:1.5px solid #0d1b3d}.ds-fare div{padding:8px 8px 8px 12px}.ds-fare div+div{border-left:1.5px solid #0d1b3d}.ds-fare div:first-child{padding-left:0}.ds-fare span,.ds-stubrow span{display:block;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.14em;color:#69728f}.ds-fare b{display:block;font:700 17px 'JetBrains Mono',monospace;color:#4b2e83;letter-spacing:-.02em}.ds-tear{position:relative;margin-top:16px;border-top:2px dashed #aeb5c8}.ds-tear::before,.ds-tear::after{content:'';position:absolute;top:-9px;width:16px;height:16px;border-radius:50%;background:#f2f2f0;box-shadow:inset 0 0 0 1.5px rgba(13,27,61,.78)}.ds-tear::before{left:-10px}.ds-tear::after{right:-10px}.ds-stubrow{padding:12px 16px 16px}.ds-urgent{font:700 44px/1 'JetBrains Mono',monospace;letter-spacing:-.05em;color:#d7262d}"
+    },
+    {
+      "name": "USED Stamp",
+      "kind": "custom",
+      "refersTo": "stamp",
+      "description": "Rotated jet-red rubber stamp marking a finished leg.",
+      "html": "<span class=\"ds-stamp\">Used</span>",
+      "css": ".ds-stamp{display:inline-block;border:2.5px solid currentColor;border-radius:3px;padding:0 .45em;color:#d7262d;font:700 14px/1.35 'Barlow Condensed',sans-serif;letter-spacing:.16em;text-transform:uppercase;transform:rotate(-7deg);mix-blend-mode:multiply;animation:ds-stamp 420ms cubic-bezier(.16,1,.3,1) both}@keyframes ds-stamp{0%{transform:rotate(-14deg) scale(1.35)}60%{transform:rotate(-6deg) scale(.95)}100%{transform:rotate(-7deg) scale(1)}}@media (prefers-reduced-motion:reduce){.ds-stamp{animation:none}}"
+    },
+    {
+      "name": "Topic Chip",
+      "kind": "chip",
+      "refersTo": "topic-chip",
+      "description": "Carbon text on pale lilac for record topics.",
+      "html": "<span class=\"ds-topic\">Anthropometry</span>",
+      "css": ".ds-topic{display:inline-block;padding:2px 6px;border-radius:3px;background:#ebe5f7;color:#4b2e83;font:400 12.5px/1.25 Barlow,sans-serif}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Ticket Wallet",
+    "overview": "The semester is a carrier's ticket wallet. Every quiz, assignment and event is a coupon (a leg) printed on white stock and filed in a navy wallet; the wallet always shows what remains, and a finished leg is stamped USED rather than disappearing. The world borrows the jet-age airline ticket: navy carrier bars, condensed grotesk caps for every head and field label, ruled fare boxes, dashed tear lines with punched notches, a purple carbon-copy duplicate, and a rubber stamp. It is a vernacular-ephemera world, not a dashboard with a theme: there are no stat tiles and no generic cards, only coupons, stubs and copies.\n\nDensity is ticket-dense: small caps labels over bold mono figures, tight ruled rows, generous only around the one coupon that matters next. The phone is the primary surface: a navy top bar, the next-leg coupon owning the first viewport, a list of compact leg coupons, and a navy bottom tab bar. On desktop the navy rail replaces both bars and the next coupon sits beside its carbon copy.\n\nColour is functional and printed. Navy is the carrier (shell, rules, ink). Jet red is urgency and the one primary action. Carbon purple is the colour of every filled-in figure, as if the date, time, marks and D-count had been typed through carbon paper. Each course carries its own ink colour on a tab, like a flight number.",
+    "keyCharacteristics": [
+      "Coupons with perforated D-count stubs are the unit of every list.",
+      "Condensed uppercase caps (Barlow Condensed) for heads, tabs and labels; Barlow for prose; JetBrains Mono carbon numerals for every figure.",
+      "Dashed tear lines with punched notches separate a coupon from its stub.",
+      "Done is a rotated jet-red USED stamp, never a removal or a green check.",
+      "Navy shell, white coupon stock on pale ticket-stock ground, lilac for the carbon copy.",
+      "Flat print: depth comes from 1.5px navy rules and a 1px ledge, not from floating shadows."
+    ],
+    "rules": [
+      {
+        "name": "The Carbon Figure Rule",
+        "body": "Every filled-in figure (date, time, marks, count, D-code) is JetBrains Mono bold in carbon purple with slashed zeros. A figure that turns urgent switches to jet red; a figure with no data goes ink-faint. Prose numbers stay in the body face.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Red Rule",
+        "body": "Jet red marks urgency, the primary action, the active location and the stamp. It is never a decorative fill, a course colour or a card background.",
+        "section": "colors"
+      },
+      {
+        "name": "The Caps-Name, Sans-Say Rule",
+        "body": "Condensed caps name things (fields, places, courses, actions); Barlow carries sentences a person wrote. Never set a record title or description in caps, and never set a field label in sentence-case sans.",
+        "section": "typography"
+      },
+      {
+        "name": "The Twelve Floor Rule",
+        "body": "Labels sit at 11px minimum with wide tracking; body metadata at 13px minimum.",
+        "section": "typography"
+      },
+      {
+        "name": "The Drawn-Not-Lit Rule",
+        "body": "Containers are separated by navy rules and perforations, not by drop shadows. A shadow means the thing is floating or being hovered.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do build every list from coupons with a perforated stub (ticket rule, 6px corners, 1.5px navy).",
+      "Do set every figure in JetBrains Mono bold carbon purple with slashed zero; switch to jet red only when urgent.",
+      "Do mark finished work with the rotated USED stamp and keep it in the list.",
+      "Do open sections with the jet-red `///` mark, caps title and an optional carbon count.",
+      "Do put field labels in 11-12px condensed caps above their values, fare-box style.",
+      "Do separate a coupon from its stub with the notched tear line, notch fill matching the ground behind it.",
+      "Do keep motion to the three one-shot moves (print-in, stamp-in, slide-up) on the 0.16, 1, 0.3, 1 ease, all disabled under reduced motion."
+    ],
+    "donts": [
+      "Don't reintroduce the slate-sidebar card dashboard with stat tiles this world replaced.",
+      "Don't use course ink for anything but its course tab and progress bar.",
+      "Don't use jet red decoratively or as a second accent fill.",
+      "Don't use the security-dot texture anywhere but empty states.",
+      "Don't separate containers with soft drop shadows; draw them with rules and perforations.",
+      "Don't set record titles or prose in uppercase caps.",
+      "Don't show a green check or remove a finished item instead of stamping it."
+    ]
+  }
+}

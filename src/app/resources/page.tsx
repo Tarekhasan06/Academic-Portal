@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHead } from "@/components/wallet/primitives";
 import { SetupBanner } from "@/components/layout/SetupBanner";
 import { ResourcesClient } from "@/components/resources/ResourcesClient";
 import { getPortalData } from "@/lib/notion";
@@ -22,14 +23,10 @@ export default async function ResourcesPage() {
     <div className="space-y-6">
       <SetupBanner configured={data.configured} error={data.error} />
 
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-          Resources & Online Class Playlists
-        </h1>
-        <p className="mt-1 text-sm text-slate-600">
-          Previous questions, books, Drive folders, study materials, and semester-organized lecture playlists.
-        </p>
-      </div>
+      <PageHead
+        title="Resources"
+        description="Previous questions, books, Drive folders and recorded class playlists from every semester."
+      />
 
       <ResourcesClient
         resources={resources}

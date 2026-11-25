@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowLeft, BookOpen } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { SetupBanner } from "@/components/layout/SetupBanner";
 import { CourseDetailTabs } from "@/components/courses/CourseDetailTabs";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { getCourseDetailData } from "@/lib/queries";
+import { CourseTab, DCode, FareBox } from "@/components/wallet/primitives";
+import { formatCouponDate, getCountdown } from "@/lib/dates";
+import { getCourseDetailData, orderLegs } from "@/lib/queries";
 import { WINTER_2026_COURSES } from "@/lib/utils";
 
 export const revalidate = 300;
@@ -21,9 +21,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { code } = await params;
   const detail = await getCourseDetailData(code);
-  return {
-    title: `${detail.course.code} — ${detail.course.name}`,
-  };
+  return { title: `${detail.course.code} ${detail.course.name}` };
 }
 
 export default async function CourseDetailPage({
@@ -34,66 +32,68 @@ export default async function CourseDetailPage({
   const { code } = await params;
   const detail = await getCourseDetailData(code);
   const { course } = detail;
+  const open = orderLegs(
+    [...detail.quizzes, ...detail.assignments].filter((r) => r.status !== "Done")
+  );
+  const next = open[0] ?? null;
+  const countdown = next ? getCountdown(next.date, next.countdown) : null;
 
   return (
     <div className="space-y-6">
       <SetupBanner configured={detail.configured} error={detail.error} />
 
-      <div>
-        <Link
-          href="/courses"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-700"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Back to all courses
-        </Link>
-      </div>
+      <Link
+        href="/courses"
+        className="caps inline-flex items-center gap-1.5 text-[13px] tracking-[0.14em] text-ink-2 hover:text-jet"
+      >
+        <ArrowLeft className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+        All courses
+      </Link>
 
-      <Card className={`border-l-4 ${course.borderClass}`}>
-        <CardContent className="p-6">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span
-                  className={`rounded-md border px-2.5 py-0.5 text-xs font-semibold ${course.badgeClass}`}
-                >
-                  {course.code}
-                </span>
-                <Badge variant="secondary">Winter 2026</Badge>
-                {course.isLab && <Badge variant="outline">Lab / Project</Badge>}
-              </div>
-              <h1 className="mt-2.5 flex items-center gap-2 text-2xl font-bold text-slate-900">
-                <BookOpen className="h-6 w-6 text-teal-700" />
-                {course.name}
-              </h1>
-              <p className="mt-1 text-sm text-slate-600">
-                Course overview and dynamically filtered Notion records for {course.code}.
-              </p>
-            </div>
+      <section className="overflow-hidden ticket">
+        <div className="flex items-center justify-between gap-3 px-5 py-3 text-white sm:px-7" style={{ backgroundColor: course.color }}>
+          <span className="caps text-[13px] tracking-[0.16em]">Boarding pass · Winter 2026</span>
+          <span className="caps text-[13px] tracking-[0.16em] opacity-85">
+            {course.isLab ? "Lab / Project" : "Theory"}
+          </span>
+        </div>
 
-            <div className="grid grid-cols-3 gap-3 rounded-xl bg-slate-50 px-4 py-3 text-center">
-              <div>
-                <p className="text-lg font-bold text-slate-900">
-                  {detail.quizzes.length + detail.assignments.length}
-                </p>
-                <p className="text-[11px] text-slate-500">Assessments</p>
-              </div>
-              <div>
-                <p className="text-lg font-bold text-slate-900">
-                  {detail.notes.length + detail.resources.length}
-                </p>
-                <p className="text-[11px] text-slate-500">Materials</p>
-              </div>
-              <div>
-                <p className="text-lg font-bold text-slate-900">
-                  {detail.classLogs.length}
-                </p>
-                <p className="text-[11px] text-slate-500">Classes</p>
-              </div>
-            </div>
+        <div className="grid gap-6 px-5 pt-5 pb-6 sm:px-7 lg:grid-cols-[1fr_260px]">
+          <div className="min-w-0">
+            <CourseTab course={course} size="md" />
+            <h1 className="caps mt-3 text-[34px] leading-[0.98] font-bold tracking-[0.02em] text-navy sm:text-[46px]">
+              {course.name}
+            </h1>
+            <dl className="mt-5 grid max-w-xl grid-cols-3 border-y-[1.5px] border-navy">
+              <FareBox label="Assessments" className="py-2">
+                {detail.quizzes.length + detail.assignments.length}
+              </FareBox>
+              <FareBox label="Materials" className="border-l-[1.5px] border-navy py-2 pl-3">
+                {detail.notes.length + detail.resources.length + detail.playlists.length}
+              </FareBox>
+              <FareBox label="Classes" className="border-l-[1.5px] border-navy py-2 pl-3">
+                {detail.classLogs.length}
+              </FareBox>
+            </dl>
           </div>
-        </CardContent>
-      </Card>
+
+          <div className="rounded-[8px] bg-lilac p-4 text-carbon lg:self-start">
+            <span className="caps block text-[12px] tracking-[0.16em] opacity-85">Next leg</span>
+            {next && countdown ? (
+              <>
+                <DCode countdown={countdown} className="mt-1 block text-[42px] tracking-[-0.05em]" />
+                <p className="mt-2 text-[15px] font-medium text-navy">{next.title}</p>
+                <p className="font-mono text-[13px] font-bold">{formatCouponDate(next.date)}</p>
+              </>
+            ) : (
+              <p className="caps mt-1 text-[22px] font-bold tracking-[0.06em]">Clear</p>
+            )}
+            <p className="mt-3 border-t-[1.5px] border-dashed border-carbon/35 pt-2 text-[13px]">
+              {open.length} open {open.length === 1 ? "leg" : "legs"} on this route
+            </p>
+          </div>
+        </div>
+      </section>
 
       <CourseDetailTabs
         announcements={detail.announcements}

@@ -1,17 +1,19 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
-import { ArrowUpDown, ClipboardCheck, ExternalLink, Search } from "lucide-react";
+import { ArrowDownUp, ClipboardList, Search, X } from "lucide-react";
 import type { AcademicRecord, CourseInfo } from "@/types/academic";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { EmptyState } from "@/components/ui/empty-state";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
-import { formatCountdownLabel, formatDisplayDate, parseDateSafe } from "@/lib/dates";
-import { cn, getCourseStyle, getStatusBadgeClass } from "@/lib/utils";
+import { LegRow } from "@/components/wallet/coupons";
+import {
+  EmptyTicket,
+  FilterBar,
+  SectionHead,
+  SelectField,
+  btn,
+  field,
+} from "@/components/wallet/primitives";
+import { getDaysRemaining, parseDateSafe } from "@/lib/dates";
+import { cn } from "@/lib/utils";
 
 export function AssessmentsClient({
   records,
@@ -27,45 +29,47 @@ export function AssessmentsClient({
   const [dateFilter, setDateFilter] = useState("ALL");
   const [sortAsc, setSortAsc] = useState(true);
 
-  const uniqueTypes = useMemo(() => {
-    return Array.from(new Set(records.map((r) => r.type))).sort();
-  }, [records]);
+  const uniqueTypes = useMemo(
+    () => Array.from(new Set(records.map((r) => r.type))).sort(),
+    [records]
+  );
+
+  const filtersActive =
+    search !== "" ||
+    courseFilter !== "ALL" ||
+    typeFilter !== "ALL" ||
+    statusFilter !== "ALL" ||
+    dateFilter !== "ALL";
+
+  const clear = () => {
+    setSearch("");
+    setCourseFilter("ALL");
+    setTypeFilter("ALL");
+    setStatusFilter("ALL");
+    setDateFilter("ALL");
+  };
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    const now = new Date();
-
     const list = records.filter((item) => {
       if (courseFilter !== "ALL" && item.course !== courseFilter) return false;
       if (typeFilter !== "ALL" && item.type !== typeFilter) return false;
       if (statusFilter !== "ALL" && item.status !== statusFilter) return false;
-
       if (dateFilter !== "ALL") {
-        const parsed = parseDateSafe(item.date);
-        if (!parsed) return false;
-        const diffDays = Math.ceil(
-          (parsed.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
-        );
-        if (dateFilter === "WEEK" && (diffDays < 0 || diffDays > 7)) return false;
-        if (dateFilter === "UPCOMING" && diffDays < 0) return false;
-        if (dateFilter === "PAST" && diffDays >= 0) return false;
+        const d = getDaysRemaining(item.date);
+        if (d === null) return false;
+        if (dateFilter === "WEEK" && (d < 0 || d > 7)) return false;
+        if (dateFilter === "UPCOMING" && d < 0) return false;
+        if (dateFilter === "PAST" && d >= 0) return false;
       }
-
       if (q) {
-        const hay = [
-          item.title,
-          item.course,
-          item.courseName,
-          item.type,
-          item.topics.join(" "),
-        ]
+        const hay = [item.title, item.course, item.courseName, item.type, item.topics.join(" ")]
           .join(" ")
           .toLowerCase();
         if (!hay.includes(q)) return false;
       }
       return true;
     });
-
     return [...list].sort((a, b) => {
       const da = parseDateSafe(a.date)?.getTime() ?? Number.MAX_SAFE_INTEGER;
       const db = parseDateSafe(b.date)?.getTime() ?? Number.MAX_SAFE_INTEGER;
@@ -73,166 +77,122 @@ export function AssessmentsClient({
     });
   }, [records, search, courseFilter, typeFilter, statusFilter, dateFilter, sortAsc]);
 
+  const groups = [
+    {
+      key: "open",
+      title: "Open legs",
+      items: filtered.filter(
+        (r) => r.status !== "Done" && (r.category === "quiz" || r.category === "assignment")
+      ),
+    },
+    {
+      key: "notices",
+      title: "Notices & syllabus",
+      items: filtered.filter((r) => r.category === "announcement" || r.category === "syllabus"),
+    },
+    {
+      key: "used",
+      title: "Used",
+      items: filtered.filter(
+        (r) => r.status === "Done" && (r.category === "quiz" || r.category === "assignment")
+      ),
+    },
+  ].filter((g) => g.items.length > 0);
+
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardContent className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-6">
-          <div className="relative lg:col-span-2">
-            <Search className="pointer-events-none absolute top-2.5 left-3 h-4 w-4 text-slate-400" />
-            <Input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search quizzes, assignments, topics..."
-              className="pl-9"
-            />
-          </div>
+    <div className="space-y-6">
+      <FilterBar className="grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_1fr_auto]">
+        <label className="relative col-span-2 block lg:col-span-1">
+          <span className="sr-only">Search assessments</span>
+          <Search
+            className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy"
+            strokeWidth={2.25}
+            aria-hidden
+          />
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search titles, topics…"
+            className={cn(field, "pl-9")}
+          />
+        </label>
+        <SelectField label="Course" value={courseFilter} onChange={(e) => setCourseFilter(e.target.value)}>
+          <option value="ALL">All courses</option>
+          {courses.map((c) => (
+            <option key={c.code} value={c.code}>
+              {c.code}
+            </option>
+          ))}
+        </SelectField>
+        <SelectField label="Type" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+          <option value="ALL">All types</option>
+          {uniqueTypes.map((t) => (
+            <option key={t} value={t}>
+              {t.replace(/^[^\p{L}\p{N}]+/u, "")}
+            </option>
+          ))}
+        </SelectField>
+        <SelectField label="Status" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+          <option value="ALL">Any status</option>
+          <option value="To do">Open (to do)</option>
+          <option value="In progress">Boarding (in progress)</option>
+          <option value="Done">Used (done)</option>
+        </SelectField>
+        <SelectField label="Date" value={dateFilter} onChange={(e) => setDateFilter(e.target.value)}>
+          <option value="ALL">Any date</option>
+          <option value="WEEK">Next 7 days</option>
+          <option value="UPCOMING">Upcoming</option>
+          <option value="PAST">Past</option>
+        </SelectField>
+        <button
+          type="button"
+          onClick={() => setSortAsc((v) => !v)}
+          className={cn(btn.base, btn.secondary, btn.md, "col-span-2 whitespace-nowrap lg:col-span-1")}
+          aria-label={sortAsc ? "Sorted soonest first; switch to latest first" : "Sorted latest first; switch to soonest first"}
+        >
+          <ArrowDownUp className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+          {sortAsc ? "Soonest" : "Latest"}
+        </button>
+      </FilterBar>
 
-          <Select
-            value={courseFilter}
-            onChange={(e) => setCourseFilter(e.target.value)}
-            aria-label="Filter by course"
+      <div className="flex items-center justify-between gap-3 text-[14px] text-ink-2" aria-live="polite">
+        <span>
+          <span className="carbon text-[14px]">{filtered.length}</span> of{" "}
+          <span className="carbon text-[14px]">{records.length}</span> on the board
+        </span>
+        {filtersActive && (
+          <button
+            type="button"
+            onClick={clear}
+            className="caps inline-flex items-center gap-1 text-[12.5px] tracking-[0.14em] text-jet hover:text-jet-ink cursor-pointer"
           >
-            <option value="ALL">All Courses</option>
-            {courses.map((c) => (
-              <option key={c.code} value={c.code}>
-                {c.code}
-              </option>
-            ))}
-          </Select>
+            <X className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+            Clear filters
+          </button>
+        )}
+      </div>
 
-          <Select
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}
-            aria-label="Filter by assessment type"
-          >
-            <option value="ALL">All Types</option>
-            {uniqueTypes.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </Select>
-
-          <Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            aria-label="Filter by status"
-          >
-            <option value="ALL">All Statuses</option>
-            <option value="To do">To do</option>
-            <option value="In progress">In progress</option>
-            <option value="Done">Done</option>
-          </Select>
-
-          <div className="flex gap-2">
-            <Select
-              value={dateFilter}
-              onChange={(e) => setDateFilter(e.target.value)}
-              className="flex-1"
-              aria-label="Filter by date"
-            >
-              <option value="ALL">Any Date</option>
-              <option value="WEEK">Next 7 days</option>
-              <option value="UPCOMING">Upcoming</option>
-              <option value="PAST">Past</option>
-            </Select>
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              onClick={() => setSortAsc((prev) => !prev)}
-              title="Toggle deadline sort order"
-              aria-label="Sort by deadline"
-            >
-              <ArrowUpDown className="h-4 w-4" />
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {filtered.length === 0 ? (
-        <EmptyState
-          title="No assessments match your filters"
-          description="Try clearing a filter or connect your Winter 2026 Notion board to see quizzes, assignments, announcements, and syllabus updates."
-          icon={ClipboardCheck}
+      {groups.length === 0 ? (
+        <EmptyTicket
+          icon={ClipboardList}
+          title={records.length === 0 ? "Board is empty" : "No legs match"}
+          description={
+            records.length === 0
+              ? "Quizzes, assignments and notices appear here once the Notion board is connected."
+              : "Nothing matches these filters. Clear one or search a course code like 4725."
+          }
         />
       ) : (
-        <div className="space-y-3">
-          {filtered.map((item) => {
-            const course = getCourseStyle(item.course);
-            const countdown = formatCountdownLabel(item.date, item.countdown);
-            return (
-              <Card
-                key={item.id}
-                className={cn("border-l-4", course.borderClass)}
-              >
-                <CardContent className="flex flex-col justify-between gap-4 p-4 sm:flex-row sm:items-center">
-                  <div className="min-w-0 flex-1 space-y-1.5">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Link
-                        href={`/courses/${course.slug}`}
-                        className={`rounded-md border px-2 py-0.5 text-xs font-semibold ${course.badgeClass}`}
-                      >
-                        {course.code}
-                      </Link>
-                      <Badge variant="secondary">{item.type}</Badge>
-                      <span
-                        className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${getStatusBadgeClass(
-                          item.status
-                        )}`}
-                      >
-                        {item.status}
-                      </span>
-                      {item.marks !== null && (
-                        <Badge variant="outline">{item.marks} marks</Badge>
-                      )}
-                    </div>
-
-                    <h2 className="text-base font-semibold text-slate-900">
-                      {item.title}
-                    </h2>
-
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
-                      <span>Due: {formatDisplayDate(item.date)}</span>
-                      {item.prepBy && <span>Prep by: {formatDisplayDate(item.prepBy)}</span>}
-                      {item.posted && <span>Posted: {formatDisplayDate(item.posted)}</span>}
-                      {item.topics.length > 0 && (
-                        <span>Topics: {item.topics.join(" · ")}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex shrink-0 items-center gap-2.5">
-                    <span
-                      className={cn(
-                        "rounded-full px-2.5 py-1 text-xs font-semibold",
-                        countdown.overdue
-                          ? "bg-rose-100 text-rose-700"
-                          : countdown.urgent
-                            ? "bg-amber-100 text-amber-800"
-                            : "bg-slate-100 text-slate-600"
-                      )}
-                    >
-                      {countdown.label}
-                    </span>
-
-                    {item.link && (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-teal-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-teal-800"
-                      >
-                        Open
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+        groups.map((g) => (
+          <section key={g.key} aria-label={g.title}>
+            <SectionHead title={g.title} count={g.items.length} as="h2" />
+            <ul className="mt-3 space-y-2">
+              {g.items.map((r, i) => (
+                <LegRow key={r.id} record={r} showDetails stampDelay={Math.min(i * 60, 240)} />
+              ))}
+            </ul>
+          </section>
+        ))
       )}
     </div>
   );

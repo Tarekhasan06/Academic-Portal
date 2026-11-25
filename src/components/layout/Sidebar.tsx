@@ -3,88 +3,102 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Activity,
   BookOpen,
   CalendarDays,
-  ClipboardCheck,
-  FolderKanban,
-  GraduationCap,
-  LayoutDashboard,
-  NotebookPen,
+  ClipboardList,
+  FolderOpen,
+  NotebookText,
+  Route,
+  Ticket,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BrandMark } from "@/components/wallet/primitives";
 
-export const NAV_ITEMS = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/courses", label: "Courses", icon: BookOpen },
-  { href: "/assessments", label: "Assessments", icon: ClipboardCheck },
-  { href: "/calendar", label: "Calendar", icon: CalendarDays },
-  { href: "/notes", label: "Class Notes", icon: NotebookPen },
-  { href: "/resources", label: "Resources", icon: FolderKanban },
-  { href: "/progress", label: "Class Progress", icon: Activity },
+export type NavItem = {
+  href: string;
+  label: string;
+  short: string;
+  icon: LucideIcon;
+};
+
+export const NAV_ITEMS: NavItem[] = [
+  { href: "/", label: "Today", short: "Today", icon: Ticket },
+  { href: "/courses", label: "Courses", short: "Courses", icon: BookOpen },
+  { href: "/assessments", label: "Assessments", short: "Assess", icon: ClipboardList },
+  { href: "/calendar", label: "Calendar", short: "Calendar", icon: CalendarDays },
+  { href: "/notes", label: "Class Notes", short: "Notes", icon: NotebookText },
+  { href: "/resources", label: "Resources", short: "Resources", icon: FolderOpen },
+  { href: "/progress", label: "Class Progress", short: "Progress", icon: Route },
 ];
 
-export function Sidebar({
-  onNavigate,
-}: {
-  onNavigate?: () => void;
-}) {
+export function isActivePath(pathname: string, href: string): boolean {
+  return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+}
+
+export function Wordmark({ compact }: { compact?: boolean }) {
+  return (
+    <Link href="/" className="flex items-center gap-2.5 text-white" aria-label="Winter 2026 home">
+      <BrandMark className={compact ? "h-4 w-auto" : "h-5 w-auto"} />
+      <span className="caps text-[19px] font-bold tracking-[0.14em] leading-none">
+        Winter 2026
+        {compact && <span className="text-white/70"> · IPE</span>}
+        {!compact && (
+          <span className="mt-1 block text-[11px] font-semibold tracking-[0.2em] text-white/65">
+            IPE · Academic Portal
+          </span>
+        )}
+      </span>
+    </Link>
+  );
+}
+
+export function Sidebar({ syncedLabel }: { syncedLabel: string }) {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-full flex-col justify-between bg-white">
-      <div>
-        <div className="flex items-center gap-3 border-b border-slate-200/80 px-5 py-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-700 text-white shadow-xs">
-            <GraduationCap className="h-5 w-5" />
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-slate-900">
-              Winter 2026
-            </p>
-            <p className="truncate text-xs text-slate-500">Academic Portal</p>
-          </div>
-        </div>
-
-        <nav className="space-y-1 p-3" aria-label="Primary Navigation">
-          {NAV_ITEMS.map((item) => {
-            const active =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname === item.href || pathname.startsWith(`${item.href}/`);
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={onNavigate}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                  active
-                    ? "bg-teal-50 text-teal-800 ring-1 ring-teal-200/70"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                )}
-              >
-                <Icon
-                  className={cn(
-                    "h-4 w-4 shrink-0",
-                    active ? "text-teal-700" : "text-slate-400"
-                  )}
-                />
-                <span>{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
+    <div className="flex h-full flex-col bg-navy text-white">
+      <div className="px-5 pt-6 pb-7">
+        <Wordmark />
       </div>
 
-      <div className="border-t border-slate-200/80 p-4">
-        <div className="rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
-          <p className="font-medium text-slate-800">Notion Sync Active</p>
-          <p className="mt-0.5 text-[11px] text-slate-500">
-            Server-cached 5 min refresh
-          </p>
-        </div>
+      <nav aria-label="Primary" className="flex-1 px-3">
+        <ul className="space-y-0.5">
+          {NAV_ITEMS.map((item) => {
+            const active = isActivePath(pathname, item.href);
+            const Icon = item.icon;
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "caps flex h-11 items-center gap-3 rounded-[4px] px-3 text-[15px] tracking-[0.12em] transition-colors",
+                    active
+                      ? "bg-navy-2 text-white"
+                      : "text-white/70 hover:bg-navy-2/60 hover:text-white"
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "grid h-7 w-7 place-items-center rounded-[4px]",
+                      active ? "bg-jet text-white" : "text-white/70"
+                    )}
+                  >
+                    <Icon className="h-[17px] w-[17px]" strokeWidth={2} aria-hidden />
+                  </span>
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
+      <div className="m-3 rounded-[6px] border border-white/15 px-4 py-3">
+        <span className="caps block text-[11px] tracking-[0.18em] text-white/55">Board sync</span>
+        <span className="mt-1 block font-mono text-[13px] font-bold text-white">{syncedLabel}</span>
+        <span className="mt-0.5 block text-[12px] text-white/60">Notion · refreshes every 5 min</span>
       </div>
     </div>
   );
