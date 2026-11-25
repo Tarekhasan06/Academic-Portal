@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHead } from "@/components/wallet/primitives";
 import { SetupBanner } from "@/components/layout/SetupBanner";
 import { NotesClient } from "@/components/notes/NotesClient";
 import { getPortalData } from "@/lib/notion";
@@ -20,14 +21,10 @@ export default async function NotesPage() {
     <div className="space-y-6">
       <SetupBanner configured={data.configured} error={data.error} />
 
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-          Class Notes Library
-        </h1>
-        <p className="mt-1 text-sm text-slate-600">
-          Browse lecture notes by course, date, and covered topics.
-        </p>
-      </div>
+      <PageHead
+        title="Class notes"
+        description="Lecture notes and Drive folders from the board, by course and date, with who noted them."
+      />
 
       <NotesClient notes={notes} courses={courses} />
     </div>

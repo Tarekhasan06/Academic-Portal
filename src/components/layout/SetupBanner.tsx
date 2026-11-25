@@ -1,4 +1,4 @@
-import { AlertTriangle, Database } from "lucide-react";
+import { CloudOff, KeyRound } from "lucide-react";
 
 export function SetupBanner({
   configured,
@@ -9,33 +9,34 @@ export function SetupBanner({
 }) {
   if (configured && !error) return null;
 
-  if (!configured) {
-    return (
-      <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-amber-950">
-        <div className="flex items-start gap-3">
-          <Database className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
-          <div className="space-y-1 text-sm">
-            <p className="font-semibold">Notion Integration Not Configured</p>
-            <p className="text-xs leading-relaxed text-amber-900">
-              Add <code className="rounded bg-amber-100 px-1.5 py-0.5 font-mono">NOTION_TOKEN</code> and{" "}
-              <code className="rounded bg-amber-100 px-1.5 py-0.5 font-mono">NOTION_DATABASE_ID</code>{" "}
-              to <code className="rounded bg-amber-100 px-1.5 py-0.5 font-mono">.env.local</code>{" "}
-              (or your Vercel Environment Variables) and share your Winter 2026 Notion database with the integration.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const notConfigured = !configured;
+  const Icon = notConfigured ? KeyRound : CloudOff;
 
   return (
-    <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50/80 p-4 text-rose-950">
-      <div className="flex items-start gap-3">
-        <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-700" />
-        <div className="space-y-1 text-sm">
-          <p className="font-semibold">Unable to Fetch Notion Data</p>
-          <p className="text-xs text-rose-800">{error}</p>
-        </div>
+    <div
+      role="status"
+      className="mb-5 flex items-start gap-3 rounded-[8px] border-[1.5px] border-jet bg-jet-wash px-4 py-3 text-navy"
+    >
+      <Icon className="mt-0.5 h-5 w-5 shrink-0 text-jet" strokeWidth={2} aria-hidden />
+      <div className="min-w-0 text-[14px] leading-relaxed">
+        <p className="caps text-[15px] tracking-[0.12em] text-jet-ink">
+          {notConfigured ? "Board not connected" : "Board unreachable"}
+        </p>
+        {notConfigured ? (
+          <p className="text-ink-2">
+            Add <code className="rounded-[3px] bg-coupon px-1 font-mono text-[13px]">NOTION_TOKEN</code>{" "}
+            and{" "}
+            <code className="rounded-[3px] bg-coupon px-1 font-mono text-[13px]">NOTION_DATABASE_ID</code>{" "}
+            to <code className="rounded-[3px] bg-coupon px-1 font-mono text-[13px]">.env.local</code> or
+            the Vercel project&apos;s environment variables, then share the Winter 2026 board with the
+            integration.
+          </p>
+        ) : (
+          <p className="break-words text-ink-2">
+            Notion didn&apos;t answer, so the wallet is empty for now. It retries on the next refresh
+            (every 5 min). Details: {error}
+          </p>
+        )}
       </div>
     </div>
   );

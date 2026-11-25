@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { ExternalLink, Search, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowUpRight, Search, X } from "lucide-react";
 import type { AcademicRecord } from "@/types/academic";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { formatDisplayDate } from "@/lib/dates";
-import { getCourseStyle, getStatusBadgeClass } from "@/lib/utils";
+import { formatCouponDate } from "@/lib/dates";
+import { getCourseStyle } from "@/lib/utils";
+import { CourseTab, StatusWord, recordTypeLabel } from "@/components/wallet/primitives";
 
 export function GlobalSearch({
   records,
@@ -19,126 +17,121 @@ export function GlobalSearch({
   onClose: () => void;
 }) {
   const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open) onClose();
+      if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    inputRef.current?.focus();
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
   }, [open, onClose]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return records.slice(0, 8);
-    return records
-      .filter((r) => {
-        const haystack = [
-          r.title,
-          r.course,
-          r.courseName,
-          r.type,
-          r.semester,
-          r.notedBy ?? "",
-          r.topics.join(" "),
-        ]
-          .join(" ")
-          .toLowerCase();
-        return haystack.includes(q);
-      })
-      .slice(0, 15);
+    const pool = q
+      ? records.filter((r) =>
+          [r.title, r.course, r.courseName, r.type, r.semester, r.notedBy ?? "", r.topics.join(" ")]
+            .join(" ")
+            .toLowerCase()
+            .includes(q)
+        )
+      : records.filter((r) => r.category !== "playlist");
+    return pool.slice(0, q ? 20 : 8);
   }, [records, query]);
 
   if (!open) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-slate-950/40 p-4 pt-16 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-navy/50 p-3 pt-[8vh] sm:p-4 sm:pt-[12vh]"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label="Global search"
+      aria-label="Search the wallet"
     >
       <div
-        className="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
+        className="slide-up w-full max-w-2xl overflow-hidden rounded-[10px] bg-coupon shadow-[0_24px_60px_-20px_rgba(13,27,61,0.7)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-2 border-b border-slate-200 px-4 py-3">
-          <Search className="h-4 w-4 text-slate-400" />
-          <Input
-            autoFocus
+        <div className="flex items-center gap-2 bg-navy px-3 py-2.5 text-white">
+          <Search className="h-5 w-5 shrink-0" strokeWidth={2.25} aria-hidden />
+          <label htmlFor="global-search" className="sr-only">
+            Search
+          </label>
+          <input
+            id="global-search"
+            ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search courses, quizzes, assignments, notes, topics..."
-            className="border-0 px-1 shadow-none focus-visible:ring-0"
+            placeholder="Search quizzes, notes, topics, people…"
+            autoComplete="off"
+            className="h-10 min-w-0 flex-1 bg-transparent text-[16px] text-white placeholder:text-white/55 focus:outline-none"
           />
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 cursor-pointer"
+            className="grid h-9 w-9 place-items-center rounded-[4px] hover:bg-navy-2 cursor-pointer"
             aria-label="Close search"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="max-h-96 overflow-y-auto p-2">
+        <div className="max-h-[60vh] overflow-y-auto">
+          <p className="caps border-b border-hair px-4 py-2 text-[11.5px] tracking-[0.16em] text-ink-3">
+            {query.trim() ? `${results.length} matching` : "Recent on the board"}
+          </p>
           {results.length === 0 ? (
-            <p className="py-10 text-center text-sm text-slate-500">
+            <p className="px-4 py-10 text-center text-[15px] text-ink-2">
               {records.length === 0
-                ? "Connect your Notion database to search Winter 2026 records."
-                : "No matching academic records found."}
+                ? "Connect the Notion board to search Winter 2026 records."
+                : `Nothing on the board matches “${query.trim()}”. Try a course code like 4709.`}
             </p>
           ) : (
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-hair">
               {results.map((item) => {
-                const courseStyle = getCourseStyle(item.course);
+                const course = getCourseStyle(item.course);
+                const hasCourse = Boolean(item.course && item.course !== "General");
                 return (
-                  <li
-                    key={item.id}
-                    className="flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 hover:bg-slate-50"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Link
-                          href={`/courses/${courseStyle.slug}`}
-                          onClick={onClose}
-                          className={`rounded-md border px-1.5 py-0.5 text-[11px] font-medium ${courseStyle.badgeClass}`}
-                        >
-                          {courseStyle.code}
-                        </Link>
-                        <Badge variant="secondary" className="text-[11px]">
-                          {item.type}
-                        </Badge>
-                        <span
-                          className={`rounded-full border px-2 py-0.5 text-[11px] font-medium ${getStatusBadgeClass(
-                            item.status
-                          )}`}
-                        >
-                          {item.status}
-                        </span>
+                  <li key={item.id}>
+                    <a
+                      href={item.link ?? item.notionUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-stock focus-visible:bg-stock"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          {hasCourse && <CourseTab course={course} size="xs" />}
+                          <span className="caps text-[11.5px] tracking-[0.14em] text-ink-3">
+                            {recordTypeLabel(item)}
+                          </span>
+                          {item.status !== "To do" && (
+                            <StatusWord status={item.status} className="text-[10px]" />
+                          )}
+                        </div>
+                        <p className="mt-1 truncate text-[15px] font-medium text-navy">
+                          {item.title}
+                        </p>
+                        {item.topics.length > 0 && (
+                          <p className="truncate text-[13px] text-ink-2">{item.topics.join(" · ")}</p>
+                        )}
                       </div>
-                      <p className="mt-1 truncate text-sm font-medium text-slate-900">
-                        {item.title}
-                      </p>
-                      <p className="mt-0.5 text-xs text-slate-500">
-                        {formatDisplayDate(item.date)}
-                        {item.topics.length > 0
-                          ? ` • ${item.topics.join(", ")}`
-                          : ""}
-                      </p>
-                    </div>
-                    {item.link && (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-100"
-                      >
-                        Open
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    )}
+                      {item.date && (
+                        <span className="carbon hidden shrink-0 text-[12.5px] sm:block">
+                          {formatCouponDate(item.date)}
+                        </span>
+                      )}
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-ink-3" aria-hidden />
+                    </a>
                   </li>
                 );
               })}

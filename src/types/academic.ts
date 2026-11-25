@@ -65,4 +65,5 @@ export interface CourseSummary {
   resourcesCount: number;
   playlistsCount: number;
   classLogsCount: number;
+  nextDue: AcademicRecord | null;
 }

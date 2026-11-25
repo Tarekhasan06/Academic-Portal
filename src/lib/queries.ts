@@ -24,6 +24,28 @@ function compareByDateDesc(a: AcademicRecord, b: AcademicRecord): number {
   return db - da;
 }
 
+/**
+ * The wallet order: what is due next first. Upcoming dated legs by date,
+ * then the past week's missed legs (most recent first), then legs with no
+ * date yet. Legs missed more than a week ago drop out of the wallet.
+ */
+export function orderLegs(records: AcademicRecord[]): AcademicRecord[] {
+  const upcoming: AcademicRecord[] = [];
+  const late: AcademicRecord[] = [];
+  const tba: AcademicRecord[] = [];
+  for (const r of records) {
+    const d = getDaysRemaining(r.date);
+    if (d === null) tba.push(r);
+    else if (d >= 0) upcoming.push(r);
+    else if (d >= -7) late.push(r);
+  }
+  return [
+    ...upcoming.sort(compareByDateAsc),
+    ...late.sort(compareByDateDesc),
+    ...tba,
+  ];
+}
+
 export function isAssessmentRecord(record: AcademicRecord): boolean {
   return (
     record.category === "quiz" ||
@@ -80,6 +102,7 @@ export async function getDashboardSnapshot(): Promise<
     recentClassLogs: AcademicRecord[];
     courseSummaries: CourseSummary[];
     completionRate: number;
+    legs: AcademicRecord[];
   }
 > {
   const data = await getPortalData();
@@ -132,6 +155,7 @@ export async function getDashboardSnapshot(): Promise<
       resourcesCount: courseRecords.filter((r) => r.category === "resource").length,
       playlistsCount: courseRecords.filter((r) => r.category === "playlist").length,
       classLogsCount: courseRecords.filter((r) => r.category === "class-log").length,
+      nextDue: orderLegs(courseTasks.filter((r) => r.status !== "Done"))[0] ?? null,
     };
   });
 
@@ -140,8 +164,11 @@ export async function getDashboardSnapshot(): Promise<
       ? Math.round((completedTasks.length / taskRecords.length) * 100)
       : 0;
 
+  const legs = orderLegs(pendingTasks);
+
   return {
     ...data,
+    legs,
     upcomingQuizzes,
     upcomingAssignments,
     upcomingEvents,
