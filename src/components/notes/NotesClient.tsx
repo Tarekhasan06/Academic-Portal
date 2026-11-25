@@ -44,8 +44,8 @@ export function NotesClient({
     });
 
     return [...list].sort((a, b) => {
-      const da = parseDateSafe(a.date)?.getTime() ?? 0;
-      const db = parseDateSafe(b.date)?.getTime() ?? 0;
+      const da = parseDateSafe(a.date ?? a.posted)?.getTime() ?? 0;
+      const db = parseDateSafe(b.date ?? b.posted)?.getTime() ?? 0;
       return newestFirst ? db - da : da - db;
     });
   }, [notes, search, courseFilter, newestFirst]);
@@ -111,7 +111,7 @@ export function NotesClient({
                         {style.code}
                       </Link>
                       <span className="text-xs text-slate-500">
-                        {formatDisplayDate(note.date)}
+                        {formatDisplayDate(note.date ?? note.posted)}
                       </span>
                     </div>
 

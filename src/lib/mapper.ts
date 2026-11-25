@@ -102,7 +102,7 @@ function readMultiValues(prop?: NotionPropertyValue): string[] {
     const raw = prop.rich_text.map((t) => t.plain_text).join("").trim();
     if (!raw) return [];
     return raw
-      .split(/[,;|]/)
+      .split(/[·|\n]+/)
       .map((s) => s.trim())
       .filter(Boolean);
   }
@@ -238,8 +238,12 @@ export function mapNotionPageToRecord(page: PageObjectResponse): AcademicRecord 
     ? normalizeCourseCode(rawCourse)
     : matchedCourse?.code ?? "General";
 
+  const parenNameMatch = rawCourse.match(/\(([^)]+)\)/);
   const courseName =
-    rawCourseName || matchedCourse?.name || course;
+    matchedCourse?.name ||
+    parenNameMatch?.[1]?.trim() ||
+    rawCourseName ||
+    course;
 
   const dateInfo = readDateRange(findProperty(p, ["Date", "Due Date", "Deadline"]));
   const link = readPlainText(findProperty(p, ["Link", "URL", "Resource Link"]));

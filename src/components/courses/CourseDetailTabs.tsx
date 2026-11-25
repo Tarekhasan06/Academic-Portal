@@ -144,10 +144,10 @@ export function CourseDetailTabs({
 
                     <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
                       {item.topics.length > 0 && (
-                        <span>Topics: {item.topics.join(", ")}</span>
+                        <span>Topics: {item.topics.join(" · ")}</span>
                       )}
                       {item.notedBy && <span>• Noted by {item.notedBy}</span>}
-                      {item.prepBy && <span>• Prep by {item.prepBy}</span>}
+                      {item.prepBy && <span>• Prep by {formatDisplayDate(item.prepBy)}</span>}
                     </div>
                   </div>
 

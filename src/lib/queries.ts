@@ -19,16 +19,9 @@ function compareByDateAsc(a: AcademicRecord, b: AcademicRecord): number {
 }
 
 function compareByDateDesc(a: AcademicRecord, b: AcademicRecord): number {
-  const da = parseDateSafe(a.date)?.getTime() ?? 0;
-  const db = parseDateSafe(b.date)?.getTime() ?? 0;
+  const da = parseDateSafe(a.date ?? a.posted)?.getTime() ?? 0;
+  const db = parseDateSafe(b.date ?? b.posted)?.getTime() ?? 0;
   return db - da;
-}
-
-function isWithinCutoff(record: AcademicRecord): boolean {
-  if (record.cutoffDays === null) return true;
-  const days = getDaysRemaining(record.date);
-  if (days === null) return true;
-  return days <= record.cutoffDays;
 }
 
 export function isAssessmentRecord(record: AcademicRecord): boolean {
@@ -96,7 +89,7 @@ export async function getDashboardSnapshot(): Promise<
     if (r.status === "Done") return false;
     const days = getDaysRemaining(r.date);
     if (days !== null && days < -1) return false;
-    return isWithinCutoff(r);
+    return true;
   };
 
   const upcomingQuizzes = records

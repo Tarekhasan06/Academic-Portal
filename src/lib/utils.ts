@@ -127,18 +127,43 @@ export function courseSlug(code: string): string {
     .replace(/^-|-$/g, "");
 }
 
+export function extractCourseCode(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  const match = trimmed.match(/^([A-Z]{2,6}\s*\d{3,4}[A-Z]?)\b/i);
+  if (match) {
+    return match[1].toUpperCase().replace(/\s+/g, " ");
+  }
+  const parenIdx = trimmed.indexOf("(");
+  if (parenIdx > 0) {
+    return trimmed.slice(0, parenIdx).trim().toUpperCase().replace(/\s+/g, " ");
+  }
+  return trimmed.toUpperCase().replace(/\s+/g, " ");
+}
+
 export function normalizeCourseCode(value: string): string {
-  return value.trim().toUpperCase().replace(/\s+/g, " ");
+  return extractCourseCode(value);
 }
 
 export function findCourseInfo(codeOrSlug: string): CourseInfo | undefined {
-  const target = codeOrSlug.trim().toLowerCase();
-  return WINTER_2026_COURSES.find(
-    (c) =>
-      c.slug === target ||
-      c.code.toLowerCase() === target ||
-      c.code.toLowerCase().replace(/\s+/g, "") === target.replace(/[-\s]+/g, "")
-  );
+  const raw = codeOrSlug.trim().toLowerCase();
+  if (!raw) return undefined;
+  const extracted = extractCourseCode(codeOrSlug).toLowerCase();
+  const compactExtracted = extracted.replace(/[-\s]+/g, "");
+  const compactRaw = raw.replace(/[-\s]+/g, "");
+
+  return WINTER_2026_COURSES.find((c) => {
+    const codeLower = c.code.toLowerCase();
+    const compactCode = codeLower.replace(/[-\s]+/g, "");
+    return (
+      c.slug === raw ||
+      codeLower === raw ||
+      codeLower === extracted ||
+      compactCode === compactExtracted ||
+      compactCode === compactRaw ||
+      raw.startsWith(codeLower)
+    );
+  });
 }
 
 export function getCourseStyle(courseCode: string): CourseInfo {

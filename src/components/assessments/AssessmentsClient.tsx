@@ -194,10 +194,10 @@ export function AssessmentsClient({
 
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
                       <span>Due: {formatDisplayDate(item.date)}</span>
-                      {item.prepBy && <span>Prep by: {item.prepBy}</span>}
-                      {item.posted && <span>Posted: {item.posted}</span>}
+                      {item.prepBy && <span>Prep by: {formatDisplayDate(item.prepBy)}</span>}
+                      {item.posted && <span>Posted: {formatDisplayDate(item.posted)}</span>}
                       {item.topics.length > 0 && (
-                        <span>Topics: {item.topics.join(", ")}</span>
+                        <span>Topics: {item.topics.join(" · ")}</span>
                       )}
                     </div>
                   </div>
